@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <header>
-            <img src="https://files.catbox.moe/qj1l3b.png" alt="Marisel AI Logo" class="logo">
+            <img src="assets/logo.png" alt="Marisel AI Logo" class="logo">
             <h1>Hi, I'm Marisel AI.</h1>
             <p>How can I assist you today?</p>
         </header>
@@ -20,10 +20,15 @@
         <div class="input-area">
             <input type="text" id="user-input" placeholder="Ask me anything...">
             <button id="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
-            <label for="image-upload" class="upload-btn">
-                <i class="fas fa-image"></i>
-                <input type="file" id="image-upload" accept="image/*">
-            </label>
+        </div>
+        <div class="api-selector">
+            <select id="api-select">
+                <option value="deepseek-r1">DeepSeek-R1</option>
+                <option value="deepseek-llm">DeepSeek-LLM</option>
+                <option value="gpt">GPT-3</option>
+                <option value="mistral">Mistral</option>
+                <option value="jinwoo">Jinwoo AI</option>
+            </select>
         </div>
     </div>
     <script src="script.js"></script>
