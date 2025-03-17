@@ -6,7 +6,7 @@ async function sendMessage() {
     chatBox.innerHTML += `<div><strong>You:</strong> ${userInput}</div>`;
 
     try {
-        const response = await fetch(`/api/chat?content=${encodeURIComponent(userInput)}`);
+        const response = await fetch(`https://api.siputzx.my.id/api/ai/deepseek-llm-67b-chat?content=${encodeURIComponent(userInput)}`);
         const data = await response.json();
         chatBox.innerHTML += `<div><strong>Marisel AI:</strong> ${data.response}</div>`;
     } catch (error) {
