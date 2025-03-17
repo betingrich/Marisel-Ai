@@ -1,15 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
-const multer = require('multer');
-const path = require('path');
 
 const app = express();
-const upload = multer({ dest: 'uploads/' });
-
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static('public'));
 
 app.get('/api/chat', async (req, res) => {
     const { content } = req.query;
@@ -21,12 +17,13 @@ app.get('/api/chat', async (req, res) => {
     }
 });
 
-app.post('/api/upload', upload.single('image'), async (req, res) => {
+app.get('/api/search', async (req, res) => {
+    const { content } = req.query;
     try {
-        // Process the image here (e.g., send it to an image analysis API)
-        res.json({ response: 'Image processed successfully.' });
+        const response = await axios.get(`https://api.siputzx.my.id/api/ai/deepseek-r1?content=${encodeURIComponent(content)}`);
+        res.json({ response: response.data.response });
     } catch (error) {
-        res.status(500).json({ response: 'Error processing the image.' });
+        res.status(500).json({ response: 'Error processing your search.' });
     }
 });
 
