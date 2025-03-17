@@ -3,12 +3,10 @@ async function sendMessage() {
     if (!userInput) return;
 
     const chatBox = document.getElementById('chat-box');
-    const apiSelector = document.getElementById('api-select').value;
-
     chatBox.innerHTML += `<div><strong>You:</strong> ${userInput}</div>`;
 
     try {
-        const response = await fetch(`/api/${apiSelector}?text=${encodeURIComponent(userInput)}`);
+        const response = await fetch(`/api/ask?text=${encodeURIComponent(userInput)}`);
         const data = await response.json();
 
         console.log('Backend Response:', data); // Log the backend response
