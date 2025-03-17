@@ -18,19 +18,29 @@ async function fetchAPIResponse(url) {
     }
 }
 
-// DeepSeek-R1
-app.get('/api/deepseek-r1', async (req, res) => {
+// Unified API handler with fallback
+app.get('/api/ask', async (req, res) => {
     const { text } = req.query;
     if (!text) return res.status(400).json({ error: 'Please provide a question.' });
 
-    const apiUrl = `https://api.siputzx.my.id/api/ai/deepseek-r1?content=${encodeURIComponent(text)}`;
-    const data = await fetchAPIResponse(apiUrl);
+    const apis = [
+        `https://api.siputzx.my.id/api/ai/deepseek-r1?content=${encodeURIComponent(text)}`,
+        `https://api.siputzx.my.id/api/ai/deepseek-llm-67b-chat?content=${encodeURIComponent(text)}`,
+        `https://api.siputzx.my.id/api/ai/gpt3?prompt=you%20are%20an%20helpful%20assistant%20providing%20detailed%20and%20friendly%20responses&content=${encodeURIComponent(text)}`,
+        `https://api.siputzx.my.id/api/ai/mistral-7b-instruct-v0.2?content=${encodeURIComponent(text)}`
+    ];
 
-    if (!data || !data.status || !data.data) {
-        console.error('API Error:', data); // Log the API error
-        return res.status(500).json({ error: 'Failed to fetch response from DeepSeek-R1.' });
+    let responseText = 'Sorry, I could not fetch a response. Please try again later.';
+
+    for (const apiUrl of apis) {
+        const data = await fetchAPIResponse(apiUrl);
+        if (data && data.data) {
+            responseText = data.data;
+            break; // Use the first successful response
+        }
     }
-    res.json({ response: data.data });
+
+    res.json({ response: responseText });
 });
 
 // Start the server
